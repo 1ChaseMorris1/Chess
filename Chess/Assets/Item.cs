@@ -1,26 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental;
 using UnityEngine;
 
 public class Item
 {
     private CompileBoard.colors color;  
     private CompileBoard.pieces pieces;
-    private bool reserved; 
+    private bool reserved;
+    private string move; 
 
-    public Item(CompileBoard.colors color, CompileBoard.pieces pieces)
+    public Item(CompileBoard.colors color, CompileBoard.pieces pieces, char file, int row)
     {
         this.color = color;
         this.pieces = pieces; 
-        reserved = true; 
+        reserved = true;
+        setMove(file, row);
     }
 
-   public Item()
+   public Item(char file, int row)
     {
         reserved = false;
-        color = CompileBoard.colors.NULL;
         pieces = CompileBoard.pieces.NULL;
-    }
+        setMove(file, row);
+        color = CompileBoard.colors.NULL;
+   }
 
      public CompileBoard.colors getColor()
      {
@@ -50,5 +54,15 @@ public class Item
     public bool getReserved()
     {
         return reserved; 
+    }
+
+    public void setMove(char file, int row)
+    {
+        move = System.Convert.ToString(file) + System.Convert.ToString(row);
+    }
+
+    public string getMove()
+    {
+        return this.move; 
     }
 }

@@ -15,11 +15,13 @@ public static class CompileBoard {
         {
             for (int j = 0; j < SIZE; j++)
             {
-                board[i, j] = new Item(); 
+                board[i, j] = new Item(getCharacter(i), j); 
             }
         }
-       
-        
+
+       // printMoves(); 
+
+        /*
         for(int i = 0; i < SIZE; i++)
         {
             board[1, i].setPiece(pieces.PAWN); 
@@ -33,7 +35,7 @@ public static class CompileBoard {
             board[3, i].setReserved(true);
             board[3, i].setColor(colors.BLACK);
         }
-
+        */
     }
 
     public static int getActivePlayer()
@@ -102,4 +104,20 @@ public static class CompileBoard {
         return (System.Convert.ToInt32(x) - 65); 
     }
 
+    private static char getCharacter(int x)
+    {
+        return System.Convert.ToChar((x + 65));
+    }
+
+    public static void printMoves()
+    {
+        for(int i = 0; i < SIZE; i++)
+        {
+            for(int j = 0; j < SIZE; j++)
+            {
+                MonoBehaviour.print(' ' + board[i,j].getMove() + ' ');
+            }
+            MonoBehaviour.print('\n');
+        }
+    }
 }
