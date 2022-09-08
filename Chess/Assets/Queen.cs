@@ -63,23 +63,27 @@ public class Queen : MonoBehaviour
                 break; 
         }
 
-        if((x > 7 || x < 0) || (y > 7 || y < 0))
-            check(positionY, positionX, ++direction); 
-
-        if(CompileBoard.board[y, x].getColor() == CompileBoard.colors.NULL)
+        if ((x > 7 || x < 0) || (y > 7 || y < 0))
         {
-            moves.Add(CompileBoard.board[y, x].getMove());
-            check(y, x, direction); 
+            check(positionY, positionX, direction + 1);
         }
-        else if (CompileBoard.board[y, x].getColor() == color)
+        else
         {
-            check(positionY, positionX, ++direction);
-        } else
-        {
-            moves.Add(CompileBoard.board[y, x].getMove());
-            check(positionY, positionX, ++direction);
+            if (CompileBoard.board[y, x].getColor() == CompileBoard.colors.NULL)
+            {
+                moves.Add(CompileBoard.board[y, x].getMove());
+                check(y, x, direction);
+            }
+            else if (CompileBoard.board[y, x].getColor() == color)
+            {
+                check(positionY, positionX, direction + 1);
+            }
+            else
+            {
+                moves.Add(CompileBoard.board[y, x].getMove());
+                check(positionY, positionX, direction + 1);
+            }
         }
-
     }
 
 

@@ -22,7 +22,7 @@ public class dragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     public void OnDrag(PointerEventData eventData)
     {
-        rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+        rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor; // set to mouse position. 
     }
 
     public void OnEndDrag(PointerEventData eventData)
