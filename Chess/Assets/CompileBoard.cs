@@ -19,7 +19,9 @@ public static class CompileBoard {
             }
         }
 
-       // printMoves(); 
+        board[3, 3] = new Item(colors.WHITE, pieces.QUEEN, board[3,3].getMove());
+
+        // printMoves(); 
 
         /*
         for(int i = 0; i < SIZE; i++)

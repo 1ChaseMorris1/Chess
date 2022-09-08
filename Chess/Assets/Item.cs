@@ -10,12 +10,12 @@ public class Item
     private bool reserved;
     private string move; 
 
-    public Item(CompileBoard.colors color, CompileBoard.pieces pieces, char file, int row)
+    public Item(CompileBoard.colors color, CompileBoard.pieces pieces, string move)
     {
         this.color = color;
         this.pieces = pieces; 
         reserved = true;
-        setMove(file, row);
+        this.move = move;   
     }
 
    public Item(char file, int row)
@@ -65,4 +65,6 @@ public class Item
     {
         return this.move; 
     }
+
+
 }
