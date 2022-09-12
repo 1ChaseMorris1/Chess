@@ -18,10 +18,12 @@ public class Pawn : MonoBehaviour
 
     void movePawn()
     {
+        /*
         if (CompileBoard.board[positionY, positionX].getReserved() == false)
         {
 
         }
+        */
     }
 
     public void showMoves()
@@ -31,14 +33,14 @@ public class Pawn : MonoBehaviour
 
 
 
-        print(CompileBoard.board[positionY , positionX].getReserved());
+      //  print(CompileBoard.board[positionY , positionX].getReserved());
 
     }
 
     public void pawnSelected()
     {
-       Setup.piece.text = CompileBoard.convert(positionX) + (positionY + 1) + " PAWN"; //  + (positionX++) + "PAWN")
-       Setup.start.enabled = true;
+     //  Setup.piece.text = CompileBoard.convert(positionX) + (positionY + 1) + " PAWN"; //  + (positionX++) + "PAWN")
+      // Setup.start.enabled = true;
        
         getMoves();
     }
@@ -68,23 +70,27 @@ public class Pawn : MonoBehaviour
 
         if(positionX + 1 != 8)
         {
+            /*
             if (CompileBoard.board[positionY + 1, positionX + 1].getColor() == CompileBoard.colors.BLACK)
             {
                 moves = moves + CompileBoard.convert(positionX + 1) + (positionY + 1) + '\n';
             }
+            */
 
         }
         
         if (positionX - 1 != -1)
         {
+            /*
             if (CompileBoard.board[positionY + 1, positionX - 1].getColor() == CompileBoard.colors.BLACK)
             {
                 moves = moves + CompileBoard.convert(positionX - 1) + (positionY + 1) + '\n';
             }
+            */
         }
        
 
-        Setup.moveSet.text = moves;
+      //  Setup.moveSet.text = moves;
 
 
     }

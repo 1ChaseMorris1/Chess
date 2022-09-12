@@ -1,35 +1,59 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Build;
 using UnityEditor.Experimental;
+using UnityEditor.Search;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class Item
+public class Item : MonoBehaviour, IDropHandler
 {
     private CompileBoard.colors color;  
     private CompileBoard.pieces pieces;
     private bool reserved;
-    private string move; 
+    private string move;
+    private Color clr;
+    private bool movedFirst; 
 
-    public Item(CompileBoard.colors color, CompileBoard.pieces pieces, string move)
+   // [SerializeField] private GameObject square; 
+
+
+
+    public void newPiece (CompileBoard.colors color, CompileBoard.pieces pieces, string move)
     {
         this.color = color;
         this.pieces = pieces; 
         reserved = true;
         this.move = move;   
+
+    
     }
 
-   public Item(char file, int row)
+   public void instill (char file, int row)
     {
         reserved = false;
         pieces = CompileBoard.pieces.NULL;
         setMove(file, row);
         color = CompileBoard.colors.NULL;
+        clr = gameObject.GetComponent<RawImage>().color;
+        print(clr);
    }
 
-     public CompileBoard.colors getColor()
-     {
+    public void setMoved()
+    {
+        movedFirst = false;
+    }
+
+    public void setColor()
+    {
+        clr = gameObject.GetComponent<RawImage>().color;
+    }
+
+    public CompileBoard.colors getColor()
+    {
         return color; 
-     }
+    }
 
     public void setColor(CompileBoard.colors color)
     {
@@ -66,5 +90,44 @@ public class Item
         return this.move; 
     }
 
+    public void turnOnObject()
+    {
+        gameObject.SetActive(true);
+       // square.SetActive(true); 
+    }
 
+    public void turnOffObject()
+    {
+        gameObject.SetActive(false);
+      //  square.SetActive(false);
+    }
+
+    public void showMove()
+    {
+        gameObject.GetComponent<RawImage>().color = Color.blue; 
+        //square.GetComponent<RawImage>().color = Color.blue; 
+    }
+
+    public void offMove()
+    {
+        gameObject.GetComponent<RawImage>().color = clr;
+
+    }
+
+    public void setItem(GameObject item)
+    {
+       
+    //    this.square = item;
+    }
+
+    public void OnDrop(PointerEventData eventData)
+    {
+        // gameobject that is being dragged.
+        if (eventData.pointerDrag != null)
+        {
+            eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
+
+            eventData.pointerDrag.GetComponent<Piece>().isMoved();
+        }
+    }
 }

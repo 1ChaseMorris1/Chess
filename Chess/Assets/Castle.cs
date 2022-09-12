@@ -1,31 +1,30 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
-public class Queen : MonoBehaviour
+public class Castle : MonoBehaviour
 {
-    public CompileBoard.colors color; 
-   // private int SIZE = 8; 
-    public int positionX; 
+    public CompileBoard.colors color;
+    //private int SIZE = 8;
+    public int positionX;
     public int positionY;
     public ArrayList moves = new ArrayList();
 
-    public void checkMoves()
+    public void checkMoves(int x)
     {
-
         check(positionY, positionX, CompileBoard.directions.UP);
 
-      //  print(moves.Count);
+       // print(moves.Count);
 
         for (int i = 0; i < 8; i++)
         {
             for (int j = 0; j < 8; j++)
             {
-                for(int k = 0; k < moves.Count; k++)
+                for (int k = 0; k < moves.Count; k++)
                 {
                     /*
-                    if (moves[k].Equals(CompileBoard.board[i,j].getMove()))
+                    if (moves[k].Equals(CompileBoard.board[i, j].getMove()))
                     {
                         CompileBoard.getTile(i, j).showMove();
                     }
@@ -33,24 +32,18 @@ public class Queen : MonoBehaviour
                 }
             }
         }
-        
-
-
-
-
     }
+
 
     private void check(int y, int x, CompileBoard.directions direction)
     {
-        //print(direction);  
-
-        if (direction == CompileBoard.directions.END)
-            return;
+        if (direction == CompileBoard.directions.DUPLEFT)
+            return; 
 
         switch (direction)
         {
             case CompileBoard.directions.UP:
-                y++;
+                y++; 
                 break;
             case CompileBoard.directions.DOWN:
                 y--;
@@ -60,18 +53,6 @@ public class Queen : MonoBehaviour
                 break;
             case CompileBoard.directions.RIGHT:
                 x++;
-                break;
-            case CompileBoard.directions.DUPRIGHT:
-                y++; x++;
-                break;
-            case CompileBoard.directions.DUPLEFT:
-                y++; x--;
-                break;
-            case CompileBoard.directions.DDOWNLEFT:
-                y--; x--;
-                break;
-            case CompileBoard.directions.DDOWNRIGHT:
-                y--; x++;
                 break; 
         }
 
@@ -79,8 +60,7 @@ public class Queen : MonoBehaviour
         if ((x > 7 || x < 0) || (y > 7 || y < 0))
         {
             check(positionY, positionX, direction + 1);
-        }
-        else
+        } else
         {
             if (CompileBoard.board[y, x].getColor() == CompileBoard.colors.NULL)
             {
@@ -98,12 +78,15 @@ public class Queen : MonoBehaviour
             }
         }
         */
+
     }
 
     public ArrayList getMoves()
     {
-        check(positionY, positionX, CompileBoard.directions.UP);
-        return moves; 
+        check(positionX, positionY, CompileBoard.directions.UP); 
+
+        return moves;
     }
+
 
 }

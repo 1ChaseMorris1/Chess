@@ -8,6 +8,11 @@ TagManager:
   - PieceText
   - GoButton
   - moves
+  - square
+  - whitePiece
+  - blackPiece
+  - piece
+  - canvas
   layers:
   - Default
   - TransparentFX
