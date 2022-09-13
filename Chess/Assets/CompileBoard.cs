@@ -11,13 +11,8 @@ public static class CompileBoard {
     private static GameObject[] squares;
     public static GameObject[,] board = new GameObject[8,8];
     private static GameObject[] Pieces;
-
-
-    // public static Setup setup;
     public static ArrayList totalMoves;
-    //private static GameObject[] squares;
 
-    //private static GameObject[] allPieces;
 
     public enum pieces { NULL = 0,  PAWN =  1, CASTLE = 2, KNIGHT = 3, BISHOP = 4, QUEEN = 5, KING = 6 };
     public enum colors { NULL = 0, WHITE = 1, BLACK = 2};
@@ -42,48 +37,20 @@ public static class CompileBoard {
 
                 board[i, j].GetComponent<Item>().setColor();
 
-                if (board[i,j].GetComponent<Item>().getPiece() == pieces.PAWN)
-                    board[i,j].GetComponent<Item>().setMoved();
+                board[i,j].GetComponent<Item>().setMoved();
+
+                board[i, j].GetComponent<Item>().setMove(getCharacter(i), j);
+
+                board[i, j].GetComponent<Item>().setCoordinates(i, j);
 
                 len++;
-
-                /*
-                board[i, j] = squares[len].AddComponent<Item>();
-                board[i, j].setItem(squares[len]);
-                board[i, j].instill(getCharacter(i), j); 
-                */
 
             }
         }
 
-
-
         setBoard();
 
-        /*
-        MonoBehavior.print(board[0, 0].move);
-
-        MonoBehaviour.print(squares[0].GetComponent<Item>().move);
-
-        GameObject gameObjects = new GameObject();
-
-        for (int i = 0; i < allPieces.Length; i++)
-        {
-            Pieces[i] = allPieces[i].AddComponent<Piece>();
-            Pieces[i].setPiece(allPieces[i]);
-        }
-
-        setBoard();
-        */
-
     }
-
-    /*
-    public static Item getTile(int i, int j)
-    {
-        return board[i, j].gameObject;
-    }
-    */
 
     public static int getActivePlayer()
     {
@@ -96,29 +63,6 @@ public static class CompileBoard {
             activePlayer = 2;
         else
             activePlayer = 1;
-    }
-
-    public static void printBoard()
-    {
-        string display = ""; 
-        for(int i = 0; i <  SIZE; i++)
-        {
-            for(int j = 0; j < SIZE; j++)
-            {
-                /*
-                if (board[i,j].getReserved() == true)
-                {
-                    display = display + "*";  
-                } else
-                {
-                    display = display + "#"; 
-                }
-                */
-            }
-            display = display + "\n"; 
-        }
-
-        MonoBehaviour.print(display); 
     }
 
     public static string convert(int pos)
@@ -137,42 +81,10 @@ public static class CompileBoard {
         return System.Convert.ToString(x); 
     }
 
-    public static bool checkSquare(int y, int x)
-    {
-        /*
-        if (board[y,x].getReserved())
-        {
-            return true; 
-        } else
-        {
-            return false;
-        }
-        */
-        return false;
-    }
-
-    public static int convert(char x)
-    {
-        return (System.Convert.ToInt32(x) - 65); 
-    }
-
     private static char getCharacter(int x)
     {
         return System.Convert.ToChar((x + 65));
     }
-
-    public static void printMoves()
-    {
-        for(int i = 0; i < SIZE; i++)
-        {
-            for(int j = 0; j < SIZE; j++)
-            {
-            //    MonoBehaviour.print(' ' + board[i,j].getMove() + ' ');
-            }
-            MonoBehaviour.print('\n');
-        }
-    }
-
 
     private static void setBoard()
     {

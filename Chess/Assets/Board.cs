@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using static CompileBoard;
 
+// trash
+/*
 public static class Board
 {
     private static int SIZE = 8; 
@@ -25,7 +27,7 @@ public static class Board
             for (int j = 0; j < SIZE; j++)
             {
                 board[i, j] = squares[len].AddComponent<Item>();
-                board[i, j].setItem(squares[len]);
+              //  board[i, j].setItem(squares[len]);
                 len++;
             }
         }
@@ -39,3 +41,4 @@ public static class Board
     }
 
 }
+*/

@@ -6,6 +6,7 @@ using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class Item : MonoBehaviour, IDropHandler
 {
@@ -13,8 +14,13 @@ public class Item : MonoBehaviour, IDropHandler
     private CompileBoard.pieces pieces;
     private bool reserved;
     private string move;
+
     private Color clr;
-    private bool movedFirst; 
+
+    private bool movedFirst;
+
+    private int positionX; 
+    private int positionY;
 
    // [SerializeField] private GameObject square; 
 
@@ -87,7 +93,7 @@ public class Item : MonoBehaviour, IDropHandler
 
     public string getMove()
     {
-        return this.move; 
+        return move; 
     }
 
     public void turnOnObject()
@@ -99,13 +105,11 @@ public class Item : MonoBehaviour, IDropHandler
     public void turnOffObject()
     {
         gameObject.SetActive(false);
-      //  square.SetActive(false);
     }
 
     public void showMove()
     {
         gameObject.GetComponent<RawImage>().color = Color.blue; 
-        //square.GetComponent<RawImage>().color = Color.blue; 
     }
 
     public void offMove()
@@ -114,11 +118,21 @@ public class Item : MonoBehaviour, IDropHandler
 
     }
 
-    public void setItem(GameObject item)
+    public void setCoordinates(int x, int y)
     {
-       
-    //    this.square = item;
+        positionX = x;
+        positionY = y;
     }
+
+    public void resetItem()
+    {
+        color = CompileBoard.colors.NULL;
+        pieces = CompileBoard.pieces.NULL; 
+        reserved = false;
+    }
+
+
+
 
     public void OnDrop(PointerEventData eventData)
     {
@@ -127,7 +141,33 @@ public class Item : MonoBehaviour, IDropHandler
         {
             eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
 
-            eventData.pointerDrag.GetComponent<Piece>().isMoved();
+            eventData.pointerDrag.GetComponent<Piece>().getCanvas().blocksRaycasts = true;
+
+
+            for (int i = 0; i < Movement.moves.Count; i++)
+            {
+
+                if (Movement.moves[i].Equals(move))
+                {
+
+                    eventData.pointerDrag.GetComponent<Piece>().isMoved(); 
+                    Movement.clear();
+
+                    eventData.pointerDrag.GetComponent<Piece>().resetBoard();
+
+                    CompileBoard.board[positionX, positionY].GetComponent<Item>().newPiece(color, pieces, move);
+
+
+                    break;
+                } else
+                {
+                    // reset back to original position
+                }
+            }
+
+
         }
     }
+
+
 }

@@ -10,6 +10,7 @@ public static class Movement
     private static int positionX;
     private static int positionY;
     private static CompileBoard.colors color;
+    public static ArrayList moves = new ArrayList(); 
 
     public static void setVariables(int x, int y, CompileBoard.colors colors)
     {
@@ -69,6 +70,9 @@ public static class Movement
             if (CompileBoard.board[x, y].GetComponent<Item>().getColor() == CompileBoard.colors.NULL)
             {
                 CompileBoard.board[x, y].GetComponent<Item>().showMove();
+
+                moves.Add(CompileBoard.board[x, y].GetComponent<Item>().getMove());
+
                 check(x, y, direction, pieces);
             }
             else if (CompileBoard.board[x, y].GetComponent<Item>().getColor() == color)
@@ -78,6 +82,9 @@ public static class Movement
             else
             {
                 CompileBoard.board[x, y].GetComponent<Item>().showMove();
+
+                moves.Add(CompileBoard.board[x, y].GetComponent<Item>().getMove());
+
                 check(positionX, positionY, direction + 1, pieces);
             }
         }
@@ -100,6 +107,8 @@ public static class Movement
             {
                 CompileBoard.board[x, y].GetComponent<Item>().showMove();
 
+                moves.Add(CompileBoard.board[x, y].GetComponent<Item>().getMove());
+
                 if (!moved)
                 {
                     if (y < 8)
@@ -107,6 +116,8 @@ public static class Movement
                         if (CompileBoard.board[x, y + 1].GetComponent<Item>().getColor() == CompileBoard.colors.NULL)
                         {
                             CompileBoard.board[x, y + 1].GetComponent<Item>().showMove();
+
+                            moves.Add(CompileBoard.board[x, y].GetComponent<Item>().getMove());
                         }
                     }
                 }
@@ -116,7 +127,7 @@ public static class Movement
             }
         }
 
-        if (x + 1 < 8 || y + 1 < 8)
+        if (x + 1 < 8 && y + 1 < 8)
         {
 
 
@@ -124,10 +135,12 @@ public static class Movement
                 CompileBoard.board[x + 1, y + 1].GetComponent<Item>().getColor() != CompileBoard.colors.NULL)
             {
                 CompileBoard.board[x + 1, y + 1].GetComponent<Item>().showMove();
+
+                moves.Add(CompileBoard.board[x, y].GetComponent<Item>().getMove());
             }
         }
 
-        if (x - 1 > 0 || y + 1 < 8)
+        if (x - 1 > 0 && y + 1 < 8)
         {
 
 
@@ -135,9 +148,16 @@ public static class Movement
                CompileBoard.board[x - 1, y + 1].GetComponent<Item>().getColor() != CompileBoard.colors.NULL)
             {
                 CompileBoard.board[x - 1, y + 1].GetComponent<Item>().showMove();
+
+                moves.Add(CompileBoard.board[x, y].GetComponent<Item>().getMove());
             }
 
         }
 
+    }
+
+    public static void clear()
+    {
+        moves.Clear();
     }
 }
