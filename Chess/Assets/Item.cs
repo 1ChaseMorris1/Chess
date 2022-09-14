@@ -13,6 +13,8 @@ public class Item : MonoBehaviour, IDropHandler
     private CompileBoard.colors color;  
     private CompileBoard.pieces pieces;
     private bool reserved;
+
+
     private string move;
 
     private Color clr;
@@ -136,9 +138,65 @@ public class Item : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
+        bool moved = false; 
         // gameobject that is being dragged.
         if (eventData.pointerDrag != null)
         {
+            eventData.pointerDrag.GetComponent<Piece>().setParentBack();
+
+            for(int i = 0; i < Movement.moves.Count; i++)
+            {
+                if (move.Equals(Movement.moves[i]))
+                {
+                    // move piece 
+
+                    eventData.pointerDrag.GetComponent<Piece>().setPosition(GetComponent<RectTransform>().anchoredPosition);                    // sets the piece variable 
+
+                    eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;      // sets the pieces new position
+
+                    reserved = true;                                                                                                            // makes spot reserved 
+
+                    color = eventData.pointerDrag.GetComponent<Piece>().color;                                                                  // setting up the item class
+
+                    pieces = eventData.pointerDrag.GetComponent<Piece>().piece;
+
+                    eventData.pointerDrag.GetComponent<Piece>().resetBoard();
+
+                    eventData.pointerDrag.GetComponent<Piece>().getCanvas().blocksRaycasts = true;
+
+                    eventData.pointerDrag.GetComponent<Piece>().setCoordinates(positionX, positionY);
+
+                    eventData.pointerDrag.GetComponent<Piece>().isMoved();
+
+                    moved = true;
+
+                   // CompileBoard.changeActivePlayer();
+
+                    break;
+                }
+
+            }
+
+            if (!moved)
+            {
+                // piece goes back to original area
+                eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = eventData.pointerDrag.GetComponent<Piece>().getPosition();
+
+                eventData.pointerDrag.GetComponent<Piece>().getCanvas().blocksRaycasts = true;
+            }
+
+            // set all of the colors back to normal.
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    CompileBoard.board[i, j].GetComponent<Item>().offMove();
+                }
+            }
+
+            Movement.clear();
+
+            /*
             eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
 
             eventData.pointerDrag.GetComponent<Piece>().getCanvas().blocksRaycasts = true;
@@ -164,7 +222,7 @@ public class Item : MonoBehaviour, IDropHandler
                     // reset back to original position
                 }
             }
-
+            */
 
         }
     }

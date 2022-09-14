@@ -24,7 +24,7 @@ public static class Movement
 
         if (pieces == CompileBoard.pieces.CASTLE)
         {
-            if (direction == CompileBoard.directions.DUPRIGHT)
+            if (direction == CompileBoard.directions.RIGHT)
                 return;
         } else
         {
@@ -97,10 +97,20 @@ public static class Movement
     public static void checkPawn(int x, int y, bool moved)
     {
         // direction is equal to 1 or up
+        int subtract = 0; 
 
-        y++;
+        if (color == CompileBoard.colors.WHITE)
+        {
+            y++;
+            subtract = 1; 
+        }
+        else if (color == CompileBoard.colors.BLACK)
+        {
+            y--;
+            subtract = -1;
+        }
 
-        if (y < 8)
+        if (y < 8 || y <= 0)
         {
 
             if (CompileBoard.board[x, y].GetComponent<Item>().getColor() == CompileBoard.colors.NULL)
@@ -111,13 +121,14 @@ public static class Movement
 
                 if (!moved)
                 {
-                    if (y < 8)
-                    {
-                        if (CompileBoard.board[x, y + 1].GetComponent<Item>().getColor() == CompileBoard.colors.NULL)
-                        {
-                            CompileBoard.board[x, y + 1].GetComponent<Item>().showMove();
 
-                            moves.Add(CompileBoard.board[x, y].GetComponent<Item>().getMove());
+                    if (y + subtract < 8 || y + subtract <= 0)
+                    {
+                        if (CompileBoard.board[x, y + subtract].GetComponent<Item>().getColor() == CompileBoard.colors.NULL)
+                        {
+                            CompileBoard.board[x, y + subtract].GetComponent<Item>().showMove();
+
+                            moves.Add(CompileBoard.board[x, y + subtract].GetComponent<Item>().getMove());
                         }
                     }
                 }
@@ -127,29 +138,30 @@ public static class Movement
             }
         }
 
-        if (x + 1 < 8 && y + 1 < 8)
+
+        if (x + 1 < 8 && (y < 8 || y >= 0))
         {
 
 
-            if (CompileBoard.board[x + 1, y + 1].GetComponent<Item>().getColor() != color &&
-                CompileBoard.board[x + 1, y + 1].GetComponent<Item>().getColor() != CompileBoard.colors.NULL)
+            if (CompileBoard.board[x + 1, y].GetComponent<Item>().getColor() != color &&
+                CompileBoard.board[x + 1, y].GetComponent<Item>().getColor() != CompileBoard.colors.NULL)
             {
-                CompileBoard.board[x + 1, y + 1].GetComponent<Item>().showMove();
+                CompileBoard.board[x + 1, y].GetComponent<Item>().showMove();
 
-                moves.Add(CompileBoard.board[x, y].GetComponent<Item>().getMove());
+                moves.Add(CompileBoard.board[x + 1, y].GetComponent<Item>().getMove());
             }
         }
 
-        if (x - 1 > 0 && y + 1 < 8)
+        if (x - 1 >= 0 && (y < 8 || y >= 0))
         {
 
 
-            if (CompileBoard.board[x - 1, y + 1].GetComponent<Item>().getColor() != color &&
-               CompileBoard.board[x - 1, y + 1].GetComponent<Item>().getColor() != CompileBoard.colors.NULL)
+            if (CompileBoard.board[x - 1, y].GetComponent<Item>().getColor() != color &&
+               CompileBoard.board[x - 1, y].GetComponent<Item>().getColor() != CompileBoard.colors.NULL)
             {
-                CompileBoard.board[x - 1, y + 1].GetComponent<Item>().showMove();
+                CompileBoard.board[x - 1, y].GetComponent<Item>().showMove();
 
-                moves.Add(CompileBoard.board[x, y].GetComponent<Item>().getMove());
+                moves.Add(CompileBoard.board[x - 1, y].GetComponent<Item>().getMove());
             }
 
         }

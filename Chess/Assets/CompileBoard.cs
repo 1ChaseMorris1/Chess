@@ -12,6 +12,8 @@ public static class CompileBoard {
     public static GameObject[,] board = new GameObject[8,8];
     private static GameObject[] Pieces;
     public static ArrayList totalMoves;
+    public static GameObject[] parent;
+    private static GameObject renderBoard; 
 
 
     public enum pieces { NULL = 0,  PAWN =  1, CASTLE = 2, KNIGHT = 3, BISHOP = 4, QUEEN = 5, KING = 6 };
@@ -25,6 +27,8 @@ public static class CompileBoard {
 
         squares = GameObject.FindGameObjectsWithTag("square");
         Pieces = GameObject.FindGameObjectsWithTag("piece");
+        parent = GameObject.FindGameObjectsWithTag("movement");
+        renderBoard = GameObject.FindGameObjectWithTag("render");
 
         int len = 0;
 
@@ -60,9 +64,28 @@ public static class CompileBoard {
     public static void changeActivePlayer()
     {
         if (activePlayer == 1)
+        {
             activePlayer = 2;
+
+          //  renderBoard.transform.eulerAngles = new Vector3(0, 0, -180);
+
+            for (int i = 0; i < Pieces.Length; i++)
+            {
+                Pieces[i].GetComponent<RectTransform>().Rotate(new Vector3(180, 0, 0));
+            }
+        }
         else
+        {
             activePlayer = 1;
+
+            renderBoard.transform.eulerAngles = new Vector3(0, 0, 0);
+
+            for (int i = 0; i < Pieces.Length; i++)
+            {
+                Pieces[i].GetComponent<RectTransform>().Rotate(new Vector3(0, 0, 0));
+            }
+        }
+
     }
 
     public static string convert(int pos)
